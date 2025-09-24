@@ -20,4 +20,30 @@ jobs:
       - run: node -v
       - run: npm -v
       - run: npm install
+
+  security:
+    runs-on: self-hosted
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: node -v
+      - run: npm -v
+      - run: npm install
+
+      - name: install SonarQube Scanner
+        run: npm install -g sonar-scanner
+      - name: Run SonarQube Scan
+        run: |
+            sonar-scanner \
+             -Dsonar.projectKey=Swapnil-project \
+             -Dsonar sources=. \
+             -Dsonar.host.url='http://13.127.171.28:9000/' \
+             -Dsonar.login='squ_7179aebba0859c3cad3751b986b38483845c0a37'
+      
+
+  
       
